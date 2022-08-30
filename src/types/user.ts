@@ -1,5 +1,6 @@
 export interface IUser {
-    biography: String
+    [key: string]: 'male' | 'famale' | string | number | boolean | undefined
+    biography: string
     birth_date: string
     first_name: string
     gender: 'male' | 'famale'
@@ -7,6 +8,10 @@ export interface IUser {
     is_active: boolean
     job: string
     last_name: string
+}
+
+export interface IUsersTableHeader {
+    [key: string]: string
 }
 
 export interface IUserState {
