@@ -5,7 +5,10 @@ export const UsersTableHeader: IUsersTableHeader = {
     last_name: 'Last name',
     birth_date: 'Birth date',
     gender: 'gender',
-    // job: 'Job',
-    // biography: 'Biography',
-    // is_active: 'Is active',
+}
+
+export const UserInfoFields: IUsersTableHeader = {
+    job: 'Job',
+    biography: 'Biography',
+    is_active: 'Is active',
 }

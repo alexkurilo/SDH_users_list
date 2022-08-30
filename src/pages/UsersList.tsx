@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react'
-import { useActions } from '../hooks/useActions'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
+// import { useActions } from '../hooks/useActions'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { IUser } from '../types/user'
 import { UsersTableHeader } from '../constants/user'
 
 export const UsersList = () => {
-    const {error, loading, users} = useTypedSelector(state => state.user)
-    const { getUsers, deleteUser } = useActions()
-    useEffect(() => { getUsers() }, [])
+    const { error, loading, users } = useTypedSelector(state => state.user)
+    // const { getUsers, deleteUser } = useActions()
+    const navigate = useNavigate()
 
     const clickHandler = async (event: React.MouseEvent<HTMLButtonElement | HTMLTableRowElement>, actionType: 'create' | 'detail' | 'edit' | 'delete', user?: IUser) => {  
         event.stopPropagation()
@@ -17,7 +18,7 @@ export const UsersList = () => {
                 console.log('actionType = ', actionType)
                 break
             case 'detail':
-                console.log('actionType = ', actionType, 'user = ', user)
+                navigate(`/user/${user!.id}/info`)
                 break
             case 'edit':
                 console.log('actionType = ', actionType, 'user = ', user)
@@ -38,7 +39,7 @@ export const UsersList = () => {
                 {error} 
             </div>
         ) : (
-            <div>
+            <div className='mx-4'>
                 <h1 className='d-flex justify-content-center mt-3'> Users list </h1>
                 <div className='d-flex justify-content-end'>
                     <button 
@@ -49,7 +50,8 @@ export const UsersList = () => {
                         className="btn btn-outline-secondary m-2"
                         onClick={(event) => clickHandler(event, 'create')}
                     >
-                        Add <i className="fa fa-plus m-2"/>
+                        <span className='px-1'>Add</span>
+                        <i className="fa fa-plus px-1"/>
                     </button>
                 </div>
                 <table className='table table-hover table-sm'>
@@ -67,7 +69,11 @@ export const UsersList = () => {
                     <tbody>
                     {users.length ? 
                         users.map((user, index) => (
-                            <tr key={`user-${user.id}`} onClick={(event) => clickHandler(event, 'detail', user)}> 
+                            <tr 
+                                key={`user-${user.id}`} 
+                                onClick={(event) => clickHandler(event, 'detail', user)}
+                                className=''
+                            > 
                                 <th scope="row">{index + 1}</th>
                                 { Object.keys(UsersTableHeader).map(headerAlias => (
                                     <td key={`user-${user.id}-${headerAlias}`}>
