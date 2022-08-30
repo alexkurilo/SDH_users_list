@@ -101,6 +101,10 @@ export const deleteUser = (userId: UserId) => {
         dispatch({type: UserActionTypes.LOADING_USER_DATA, payload: true})
         try {
             const response = await api.delete(userRoutes.user(userId))
+            dispatch({
+                type: UserActionTypes.DELETE_USER, 
+                payload: response.data
+            })  
         //@ts-ignore
         } catch (error: Error | AxiosError) {
             if (axios.isAxiosError(error))  {
