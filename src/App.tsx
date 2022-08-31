@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 
 import { UsersList } from './pages/UsersList'
 import { UserInfo } from './pages/UserInfo'
@@ -7,9 +8,11 @@ import { UserForm } from './pages/UserForm'
 import { useActions } from './hooks/useActions'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
+import 'react-toastify/dist/ReactToastify.css'
+import './styles.css'
 
 const App = () => {
-  const { getUsers, deleteUser } = useActions()
+  const { getUsers } = useActions()
     useEffect(() => { getUsers() }, [])
     
     return (
@@ -22,6 +25,7 @@ const App = () => {
                     <Route path="/user/:id/edit" element={<UserForm />} />
                 </Routes>
             </BrowserRouter>
+            <ToastContainer autoClose={2000} />
         </div>
   );
 }

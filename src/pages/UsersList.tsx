@@ -3,40 +3,42 @@ import { useNavigate } from 'react-router-dom'
 
 import { useActions } from '../hooks/useActions'
 import { useTypedSelector } from '../hooks/useTypedSelector'
-import { IUser } from '../types/user'
+import { HandleUserActionTypes, IUser } from '../types/user'
 import { UsersTableHeader } from '../constants/user'
 
 export const UsersList = () => {
-    const { error, loading, users } = useTypedSelector(state => state.user)
+    const { loading, users } = useTypedSelector(state => state.user)
     const { deleteUser } = useActions()
     const navigate = useNavigate()
 
-    const clickHandler = async (event: React.MouseEvent<HTMLButtonElement | HTMLTableRowElement>, actionType: 'create' | 'detail' | 'edit' | 'delete', user?: IUser) => {  
-        event.stopPropagation()
-        switch (actionType) {
-            case 'create':
-                navigate(`/user/create`)
-                break
-            case 'detail':
-                navigate(`/user/${user!.id}/info`)
-                break
-            case 'edit':
-                navigate(`/user/${user!.id}/edit`)
-                break
-            case 'delete':
-                deleteUser(user!.id)
-                break
+    const clickHandler = async (
+            event: React.MouseEvent<HTMLButtonElement | HTMLTableRowElement>, 
+            actionType: HandleUserActionTypes, 
+            user?: IUser
+        ) => {  
+            event.stopPropagation()
+            switch (actionType) {
+                case 'create':
+                    navigate(`/user/create`)
+                    break
+                case 'detail':
+                    navigate(`/user/${user!.id}/info`)
+                    break
+                case 'edit':
+                    navigate(`/user/${user!.id}/edit`)
+                    break
+                case 'delete':
+                    deleteUser(user!.id)
+                    break
+            }
         }
-    }
 
     return (
         loading ? (
-            <div> 
-                Data is loading...
-            </div>
-        ) : error ? (
-            <div> 
-                {error} 
+            <div className='w-100 h-100-vh d-flex justify-content-center align-items-center'>
+                <div className="spinner-border text-secondary" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
             </div>
         ) : (
             <div className='mx-4'>
