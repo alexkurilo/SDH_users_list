@@ -79,6 +79,13 @@ export const UserForm = () => {
                             label="Last Name"
                             name="last_name"
                             onChange={formik.handleChange}
+                            name="gender"
+                        >
+                            <MenuItem value={'male'}>male</MenuItem>
+                            <MenuItem value={'female'}>female</MenuItem>
+                        </Select>
+                    </FormControl>
+                    {(formik.touched.gender && formik.errors.gender) && <div className='text-danger'>{formik.errors.gender}</div>}
                             value={formik.values.last_name}
                             className='my-2'
                         />
