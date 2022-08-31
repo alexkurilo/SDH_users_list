@@ -1,5 +1,6 @@
 import { Dispatch } from 'react'
-import axios, { AxiosError }  from 'axios'
+import { AxiosError }  from 'axios'
+import { toast } from "react-toastify"
 
 import { api } from '../../api'
 import { UserAction, UserActionTypes } from '../../types/user'
@@ -19,12 +20,8 @@ export const getUsers = () => {
                 payload: response.data
             })
         //@ts-ignore
-        } catch (error: Error | AxiosError) {
-            if (axios.isAxiosError(error))  {
-                console.log('error: ', error)
-            } else {
-                console.log('error: ', error)
-            }
+        } catch (error: AxiosError) {
+            toast.warn(error.message)
         } finally {
             dispatch({type: UserActionTypes.LOADING_USER_DATA, payload: false})
         }
@@ -36,13 +33,10 @@ export const getUser = (userId: UserId) => {
         dispatch({type: UserActionTypes.LOADING_USER_DATA, payload: true})
         try {
             const response = await api.get(userRoutes.user(userId))
+            console.log('response = ', response)
         //@ts-ignore
         } catch (error: Error | AxiosError) {
-            if (axios.isAxiosError(error))  {
-                console.log('error: ', error)
-            } else {
-                console.log('error: ', error)
-            }
+            toast.warn(error!.message)
         } finally {
             dispatch({type: UserActionTypes.LOADING_USER_DATA, payload: false})
         }
@@ -60,11 +54,7 @@ export const createUser = (body: IUser) => {
             })
         // @ts-ignore
         } catch (error: Error | AxiosError) {
-            if (axios.isAxiosError(error))  {
-                console.log('error: ', error)
-            } else {
-                console.log('error: ', error)
-            }
+            toast.warn(error!.message)
         } finally {
             dispatch({type: UserActionTypes.LOADING_USER_DATA, payload: false})
         }
@@ -82,11 +72,7 @@ export const editUser = (body: IUser) => {
             })            
         //@ts-ignore
         } catch (error: Error | AxiosError) {
-            if (axios.isAxiosError(error))  {
-                console.log('error: ', error)
-            } else {
-                console.log('error: ', error)
-            }
+            toast.warn(error!.message)
         } finally {
             dispatch({type: UserActionTypes.LOADING_USER_DATA, payload: false})
         }
@@ -96,18 +82,16 @@ export const editUser = (body: IUser) => {
 export const deleteUser = (userId: UserId) => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
-            await api.delete(userRoutes.user(userId))
-            dispatch({
-                type: UserActionTypes.DELETE_USER, 
-                payload: userId
-            })  
+            if (userId) {
+                await api.delete(userRoutes.user(userId))
+                dispatch({
+                    type: UserActionTypes.DELETE_USER, 
+                    payload: userId
+                })  
+            }
         //@ts-ignore
         } catch (error: Error | AxiosError) {
-            if (axios.isAxiosError(error))  {
-                console.log('error: ', error)
-            } else {
-                console.log('error: ', error)
-            }
+            toast.warn(error!.message)
         } 
     }
 }

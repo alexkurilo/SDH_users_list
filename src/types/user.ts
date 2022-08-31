@@ -17,7 +17,6 @@ export interface IUsersTableHeader {
 export interface IUserState {
     users: IUser[]
     loading: boolean
-    error: null | string
 }
 
 export enum UserActionTypes {
@@ -52,6 +51,8 @@ interface IDeleteUserAction {
     type: UserActionTypes.DELETE_USER,
     payload: UserId
 }
+
+export type HandleUserActionTypes = 'create' | 'detail' | 'edit' | 'delete'
 
 export type UserAction = 
     ILoadingUserDataAction |
