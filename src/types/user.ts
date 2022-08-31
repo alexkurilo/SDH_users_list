@@ -50,7 +50,7 @@ interface IEditUserAction {
 
 interface IDeleteUserAction {
     type: UserActionTypes.DELETE_USER,
-    payload: IUser
+    payload: UserId
 }
 
 export type UserAction = 

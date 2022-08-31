@@ -4,7 +4,7 @@ export const UsersTableHeader: IUsersTableHeader = {
     first_name: 'First name',
     last_name: 'Last name',
     birth_date: 'Birth date',
-    gender: 'gender',
+    gender: 'Gender',
 }
 
 export const UserInfoFields: IUsersTableHeader = {

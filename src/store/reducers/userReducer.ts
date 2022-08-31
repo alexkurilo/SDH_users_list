@@ -39,7 +39,7 @@ export const userReducer = (state = initialState, action: UserAction): IUserStat
             return {
                 ...state,
                 users: [
-                    ...state.users.filter(user => user.id !== action.payload.id), 
+                    ...state.users.filter(user => user.id !== action.payload), 
                 ],
             }
         default:

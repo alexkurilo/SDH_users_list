@@ -13,7 +13,7 @@ export const UserInfo = () => {
         
     useEffect(() => { 
         users.length && id && setSelectedUser(users.find(user => user.id === +id)!)
-     }, [users, id])
+     }, [users.length, id])
 
      return (
         <div className='mx-4'>
@@ -36,19 +36,16 @@ export const UserInfo = () => {
                     <table className='table table-hover'>
                         <tbody>
                         {
-                            Object.keys({...UsersTableHeader, ...UserInfoFields}).map((userField) => {
-                                console.log('userField = ', userField)
-                                console.log('selectedUser[userField] = ', selectedUser[userField])
-                                return(
+                            Object.keys({...UsersTableHeader, ...UserInfoFields}).map((userField) => (
                                 <tr key={`user-info-${userField}`}> 
                                     <td width={'120px'} align='left'>
-                                        {userField}
+                                        {{...UsersTableHeader, ...UserInfoFields}[userField]}
                                     </td>
                                     <td width={'120px'} >
                                         {selectedUser[userField]?.toString()}
                                     </td>
                                 </tr>
-                        )})}
+                        ))}
                         </tbody> 
                     </table>
                 ) : null
