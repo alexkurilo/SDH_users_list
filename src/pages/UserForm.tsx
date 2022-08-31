@@ -50,9 +50,8 @@ export const UserForm = () => {
         initialValues: formikInitlValues,
         validationSchema: UserValidationSchema,
         onSubmit: (values, actions) => {
-            console.log('values= ', values)
-        //   actions.resetForm()
-        //   values.id ? editUser(values) : createUser(values)
+          actions.resetForm()
+          values.id ? editUser(values) : createUser(values)
         },
         onReset: () => {
             navigate('/')
@@ -113,7 +112,7 @@ export const UserForm = () => {
                             name="gender"
                         >
                             <MenuItem value={'male'}>male</MenuItem>
-                            <MenuItem value={'famale'}>famale</MenuItem>
+                            <MenuItem value={'female'}>female</MenuItem>
                         </Select>
                     </FormControl>
                     {(formik.touched.gender && formik.errors.gender) && <div className='text-danger'>{formik.errors.gender}</div>}
