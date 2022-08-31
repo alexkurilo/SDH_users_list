@@ -41,8 +41,7 @@ export const UserForm = () => {
         
     useEffect(() => { 
         if (users.length && id) {
-            const user = users.find(user => user.id === +id)!
-            formik.setValues(user, false)
+            formik.setValues(users.find(user => user.id === +id)!, false)
         }
     }, [users])
 
@@ -50,9 +49,8 @@ export const UserForm = () => {
         initialValues: formikInitlValues,
         validationSchema: UserValidationSchema,
         onSubmit: (values, actions) => {
-            console.log('values= ', values)
-        //   actions.resetForm()
-        //   values.id ? editUser(values) : createUser(values)
+          actions.resetForm()
+          values.id ? editUser(values) : createUser(values)
         },
         onReset: () => {
             navigate('/')
@@ -64,95 +62,106 @@ export const UserForm = () => {
             <h1 className='d-flex justify-content-center mt-3'> User form </h1>
             <Container maxWidth="sm" className="form-container">
                 <form onSubmit={formik.handleSubmit} className=''>
-                    <TextField
-                        fullWidth
-                        label="First Name"
-                        name="first_name"
-                        onChange={formik.handleChange}
-                        value={formik.values.first_name}
-                        className='my-2'
-                    />
-                    {(formik.touched.first_name && formik.errors.first_name) && <div className='text-danger'>{formik.errors.first_name}</div>}
-
-                    <TextField
-                        fullWidth
-                        label="Last Name"
-                        name="last_name"
-                        onChange={formik.handleChange}
-                        value={formik.values.last_name}
-                        className='my-2'
-                    />
-                    {(formik.touched.last_name && formik.errors.last_name) && <div className='text-danger'>{formik.errors.last_name}</div>}
-                    
-                    <LocalizationProvider dateAdapter={AdapterDayjs} className='my-2'>
-                        <Stack>
-                            <DesktopDatePicker
-                                label="Birth date"
-                                inputFormat="YYYY-MM-DD"
-                                value={formik.values.birth_date}
-                                onChange={newValue => {
-                                   formik.handleChange({
-                                        target: {
-                                            name: 'birth_date',
-                                            value: dayjs(newValue).format('YYYY-MM-DD')
-                                        }
-                                    })
-                                }}
-                                //@ts-ignore
-                                renderInput={props => <TextField {...props}/>}
-                            />
-                        </Stack>
-                    </LocalizationProvider>
-                    {(formik.touched.birth_date && formik.errors.birth_date) && <div className='text-danger'>{formik.errors.birth_date}</div>}
-                    
-                    <FormControl fullWidth className='my-2'>
-                        <InputLabel >Gender</InputLabel>
-                        <Select
-                            value={formik.values.gender}
+                    <div className='my-2'>
+                        <TextField
+                            fullWidth
+                            label="First Name"
+                            name="first_name"
                             onChange={formik.handleChange}
-                            name="gender"
-                        >
-                            <MenuItem value={'male'}>male</MenuItem>
-                            <MenuItem value={'famale'}>famale</MenuItem>
-                        </Select>
-                    </FormControl>
-                    {(formik.touched.gender && formik.errors.gender) && <div className='text-danger'>{formik.errors.gender}</div>}
+                            value={formik.values.first_name}
+                        />
+                        {(formik.touched.first_name && formik.errors.first_name) && <div className='text-danger'>{formik.errors.first_name}</div>}
+                    </div>
 
-                    <TextField
-                        fullWidth
-                        label="Job"
-                        name="job"
-                        onChange={formik.handleChange}
-                        value={formik.values.job}
-                        className='my-2'
-                    />
-                    {(formik.touched.job && formik.errors.job) && <div className='text-danger'>{formik.errors.job}</div>}
+                    <div className='my-2'>
+                        <TextField
+                            fullWidth
+                            label="Last Name"
+                            name="last_name"
+                            onChange={formik.handleChange}
+                            value={formik.values.last_name}
+                            className='my-2'
+                        />
+                        {(formik.touched.last_name && formik.errors.last_name) && <div className='text-danger'>{formik.errors.last_name}</div>}
+                    </div>
 
-                    <TextField 
-                        fullWidth
-                        multiline
-                        rows={5}
-                        label="Biography"
-                        name="biography"  
-                        onChange={formik.handleChange}
-                        value={formik.values.biography}
-                        className='my-2'
-                    />
-                    {(formik.touched.biography && formik.errors.biography) && <div className='text-danger'>{formik.errors.biography}</div>}
-                    
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={formik.values.is_active}
+                    <div className='my-2'>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} >
+                            <Stack>
+                                <DesktopDatePicker
+                                    label="Birth date"
+                                    inputFormat="YYYY-MM-DD"
+                                    value={formik.values.birth_date}
+                                    maxDate={dayjs().format('YYYY-MM-DD')}
+                                    onChange={newValue => {
+                                        formik.handleChange({
+                                            target: {
+                                                name: 'birth_date',
+                                                value: dayjs(newValue).format('YYYY-MM-DD')
+                                            }
+                                        })
+                                    }}
+                                    //@ts-ignore
+                                    renderInput={props => <TextField {...props}/>}
+                                />
+                            </Stack>
+                        </LocalizationProvider>
+                        {(formik.touched.birth_date && formik.errors.birth_date) && <div className='text-danger'>{formik.errors.birth_date}</div>}
+                    </div>
+
+                    <div className='my-3'>
+                        <FormControl fullWidth >
+                            <InputLabel >Gender</InputLabel>
+                            <Select
+                                value={formik.values.gender}
                                 onChange={formik.handleChange}
-                                name="is_active"
-                                color="primary"
-                            />
-                        }
-                        label="Is active user"
-                    />
-                    {(formik.touched.is_active && formik.errors.is_active) && <div className='text-danger'>{formik.errors.is_active}</div>}
+                                name="gender"
+                            >
+                                <MenuItem value={'male'}>male</MenuItem>
+                                <MenuItem value={'female'}>female</MenuItem>
+                            </Select>
+                        </FormControl>
+                        {(formik.touched.gender && formik.errors.gender) && <div className='text-danger'>{formik.errors.gender}</div>}
+                    </div>
 
+                    <div className='my-2'>
+                        <TextField
+                            fullWidth
+                            label="Job"
+                            name="job"
+                            onChange={formik.handleChange}
+                            value={formik.values.job}
+                        />
+                        {(formik.touched.job && formik.errors.job) && <div className='text-danger'>{formik.errors.job}</div>}
+                    </div>
+
+                    <div className='my-3'>
+                        <TextField 
+                            fullWidth
+                            multiline
+                            rows={5}
+                            label="Biography"
+                            name="biography"  
+                            onChange={formik.handleChange}
+                            value={formik.values.biography}
+                        />
+                        {(formik.touched.biography && formik.errors.biography) && <div className='text-danger'>{formik.errors.biography}</div>}
+                    </div>
+
+                    <div className='my-2'>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={formik.values.is_active}
+                                    onChange={formik.handleChange}
+                                    name="is_active"
+                                    color="primary"
+                                />
+                            }
+                            label="Is active user"
+                        />
+                        {(formik.touched.is_active && formik.errors.is_active) && <div className='text-danger'>{formik.errors.is_active}</div>}
+                    </div>
                     
                     <div className='d-flex justify-content-center mt-3'>
                         <Button
