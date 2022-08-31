@@ -1,30 +1,30 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-// import { useActions } from '../hooks/useActions'
+import { useActions } from '../hooks/useActions'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { IUser } from '../types/user'
 import { UsersTableHeader } from '../constants/user'
 
 export const UsersList = () => {
     const { error, loading, users } = useTypedSelector(state => state.user)
-    // const { getUsers, deleteUser } = useActions()
+    const { deleteUser } = useActions()
     const navigate = useNavigate()
 
     const clickHandler = async (event: React.MouseEvent<HTMLButtonElement | HTMLTableRowElement>, actionType: 'create' | 'detail' | 'edit' | 'delete', user?: IUser) => {  
         event.stopPropagation()
         switch (actionType) {
             case 'create':
-                console.log('actionType = ', actionType)
+                navigate(`/user/create`)
                 break
             case 'detail':
                 navigate(`/user/${user!.id}/info`)
                 break
             case 'edit':
-                console.log('actionType = ', actionType, 'user = ', user)
+                navigate(`/user/${user!.id}/edit`)
                 break
             case 'delete':
-                console.log('actionType = ', actionType, 'user = ', user)
+                deleteUser(user!.id)
                 break
         }
     }

@@ -38,7 +38,6 @@ export const getUser = (userId: UserId) => {
             const response = await api.get(userRoutes.user(userId))
         //@ts-ignore
         } catch (error: Error | AxiosError) {
-            console.log('error: ', error)
             if (axios.isAxiosError(error))  {
                 console.log('error: ', error)
             } else {
@@ -61,7 +60,6 @@ export const createUser = (body: IUser) => {
             })
         // @ts-ignore
         } catch (error: Error | AxiosError) {
-            console.log('error: ', error)
             if (axios.isAxiosError(error))  {
                 console.log('error: ', error)
             } else {
@@ -84,7 +82,6 @@ export const editUser = (body: IUser) => {
             })            
         //@ts-ignore
         } catch (error: Error | AxiosError) {
-            console.log('error: ', error)
             if (axios.isAxiosError(error))  {
                 console.log('error: ', error)
             } else {
@@ -98,12 +95,11 @@ export const editUser = (body: IUser) => {
 
 export const deleteUser = (userId: UserId) => {
     return async (dispatch: Dispatch<UserAction>) => {
-        dispatch({type: UserActionTypes.LOADING_USER_DATA, payload: true})
         try {
-            const response = await api.delete(userRoutes.user(userId))
+            await api.delete(userRoutes.user(userId))
             dispatch({
                 type: UserActionTypes.DELETE_USER, 
-                payload: response.data
+                payload: userId
             })  
         //@ts-ignore
         } catch (error: Error | AxiosError) {
@@ -112,9 +108,7 @@ export const deleteUser = (userId: UserId) => {
             } else {
                 console.log('error: ', error)
             }
-        } finally {
-            dispatch({type: UserActionTypes.LOADING_USER_DATA, payload: false})
-        }
+        } 
     }
 }
 
